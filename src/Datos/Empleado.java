@@ -5,6 +5,7 @@
  */
 package Datos;
 
+import fecha.Fecha;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,8 @@ public class Empleado {
     String nombre;
     int identificador;
     //en un arraylist el indice cambia al eliminar NO SE PUEDE USAR
-    ArrayList<Datos> bEntrada;
+    //si no se pone dentro de <> tipo (Correo) se crea uno generico
+    ArrayList<Correo> bEntrada;
 
     public Empleado(int t, String l, String p, String n, int i) {
         //OBLIGATORIO INSTANCIAR ARRAYLIST AUNQUE ESTE VACIO
@@ -36,7 +38,50 @@ public class Empleado {
     public int getTipoUsuario() {
         return tipoUsuario;
     }
-    
-    
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getIdentificador() {
+        return identificador;
+    }
+    
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+    public void setTipoUsuario(int tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    // todo el correo a la vez
+    public void recibirCorreo(Correo c){
+        bEntrada.add(c);
+    }
+    // cada elemento del correro
+    public void recibirCorreo(String asunto, String Texto, int codigoEmisor, Fecha fecha){
+        Correo c= new Correo(asunto,Texto, codigoEmisor,fecha);
+        bEntrada.add(c);
+    }
 }

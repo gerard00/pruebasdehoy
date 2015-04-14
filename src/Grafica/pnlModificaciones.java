@@ -196,8 +196,8 @@ public class pnlModificaciones extends javax.swing.JPanel {
           // actualizar modelo
           //modificar TODOS LOS DATOS
           //SE CREA UN EMPLEADO
-          Empleado e=new Empleado(Integer.parseInt(txtIdentificador.getText()),
-                  txtLogin.getText(),new String(pwdContra.getPassword()),txtNombre.getText(),cmbTipoUsuario.getSelectedIndex()+1);
+          Empleado e=new Empleado(cmbTipoUsuario.getSelectedIndex()+1  ,
+                  txtLogin.getText(),new String(pwdContra.getPassword()),txtNombre.getText(),Integer.parseInt(txtIdentificador.getText()));
           //SE GUARDA EMPLEADO MODIFICADO
           email.getMisEmpleados().set(pos, e);
           // ACTUALIZA EL MODELO

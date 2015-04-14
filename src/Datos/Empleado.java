@@ -31,7 +31,7 @@ public class Empleado {
         login = l;
         pass = p;
         nombre = n;
-        identificador = 1;
+        identificador = i;
         bEntrada = new ArrayList<>();
     }
 

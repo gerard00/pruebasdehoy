@@ -6,6 +6,7 @@
 package Grafica;
 
 import Datos.Empresa;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -13,10 +14,15 @@ import javax.swing.JFrame;
  * @author pc
  */
 public class VentanaUsuario extends javax.swing.JFrame {
-
+    int usuarioValidado;
+     PanelEnviar penviar; 
+     pnlLeer pleer;
+     
     private Empresa email;
-    public VentanaUsuario(Empresa email) {
+    public VentanaUsuario(Empresa email, int usuarioValidado) {
         this.email=email;
+        this.usuarioValidado=usuarioValidado;
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Usuarios.png")).getImage());
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -41,7 +47,8 @@ public class VentanaUsuario extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setPreferredSize(getMaximumSize());
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jMenu1.setText("Usuario");
@@ -50,9 +57,19 @@ public class VentanaUsuario extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         mnuEnviar.setText("Enviar Correo");
+        mnuEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuEnviarActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnuEnviar);
 
         mnuLeer.setText("Bandeja de Entrada");
+        mnuLeer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLeerActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnuLeer);
 
         jMenuBar1.add(jMenu1);
@@ -80,6 +97,37 @@ public class VentanaUsuario extends javax.swing.JFrame {
         dispose();
         pack();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void quitarPaneles(){
+    try{
+        // GUARDAR EMAIL ANTES DE BORRAR PANEL PARA GUARDAR CAMBIOS
+        // CON PANELES NO HACE FALTA POR SER UN OBJETO SI ES UN PRIMITIVO SSSIII
+       this.email = penviar.email;
+       this.remove(penviar);
+    }catch(Exception e){}
+    try{
+        // GUARDAR EMAIL ANTES DE BORRAR PANEL PARA GUARDAR CAMBIOS
+        // CON PANELES NO HACE FALTA POR SER EMAIL UN OBJETO SI ES UN PRIMITIVO SSII
+       this.email = pleer.email;
+       this.remove(pleer);
+    }catch(Exception e){}
+    
+}
+    private void mnuEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEnviarActionPerformed
+        // TODO add your handling code here:
+        quitarPaneles();
+        penviar=new PanelEnviar(email, usuarioValidado);
+        this.add(penviar);
+        pack();
+    }//GEN-LAST:event_mnuEnviarActionPerformed
+
+    private void mnuLeerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLeerActionPerformed
+        // TODO add your handling code here:
+         quitarPaneles();
+        pleer=new pnlLeer(email, usuarioValidado);
+        this.add(penviar);
+        pack();
+    }//GEN-LAST:event_mnuLeerActionPerformed
 
     /**
      * @param args the command line arguments

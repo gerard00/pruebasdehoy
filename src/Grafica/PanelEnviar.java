@@ -5,17 +5,55 @@
  */
 package Grafica;
 
+import Datos.Correo;
+import Datos.Empleado;
+import Datos.Empresa;
+import fecha.Fecha;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 203pc1
  */
-public class pnlLeerCorreo extends javax.swing.JPanel {
-
-    /**
-     * Creates new form pnlLeerCorreo
-     */
-    public pnlLeerCorreo() {
+public class PanelEnviar extends javax.swing.JPanel {
+    Empresa email;
+    int usuarioValidado;
+    DefaultComboBoxModel modelo;
+    // se pone fuera por que se usa en varios sitios
+    Fecha f= new Fecha();
+    
+    public PanelEnviar() {
         initComponents();
+        
+    }
+
+    /*public PanelEnviar(Empresa email, int usuarioValidado) {
+        initComponents();
+        this.email=email;
+        this.usuarioValidado=usuarioValidado;
+    }*/
+    
+    public PanelEnviar(Empresa email, int usuarioValidado) {
+        //NO OLVIDAR initComponents(); al crear constructor
+        initComponents();
+        this.email=email;
+        this.usuarioValidado=usuarioValidado;
+        //SIEMPRE LO ULTIMO
+        //this.usuarioValidado=usuarioValidado;
+        cargarEmpleados();
+        
+        txtFecha.setText(f.visualizar());
+    }
+    
+    public void cargarEmpleados(){
+        modelo = new DefaultComboBoxModel();
+        //se recorre y se van guardando
+        for (int i=0; i<email.getMisEmpleados().size();i++){
+            modelo.addElement(email.getMisEmpleados().get(i));
+        }
+        //se carga en el combo box
+        cmbDestinatario.setModel(modelo);
     }
 
     /**
@@ -39,6 +77,7 @@ public class pnlLeerCorreo extends javax.swing.JPanel {
         bntEnviar = new javax.swing.JButton();
         bntCancelar = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(100, 100));
         setPreferredSize(new java.awt.Dimension(767, 767));
 
         jLabel1.setText("Destinatario");
@@ -49,13 +88,18 @@ public class pnlLeerCorreo extends javax.swing.JPanel {
 
         jLabel4.setText("Texto");
 
-        cmbDestinatario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtFecha.setEnabled(false);
 
         txaTexto.setColumns(20);
         txaTexto.setRows(5);
         jScrollPane1.setViewportView(txaTexto);
 
         bntEnviar.setText("Enviar");
+        bntEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntEnviarActionPerformed(evt);
+            }
+        });
 
         bntCancelar.setText("Cancelar");
 
@@ -81,17 +125,15 @@ public class pnlLeerCorreo extends javax.swing.JPanel {
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(34, 34, 34)
-                                            .addComponent(cmbDestinatario, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(34, 34, 34)
-                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cmbDestinatario, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,6 +161,45 @@ public class pnlLeerCorreo extends javax.swing.JPanel {
                 .addGap(60, 60, 60))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bntEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntEnviarActionPerformed
+      
+        //COMPROBAR QUE EL ASUNTO NO ESTE VACIO
+        
+        String asunto=txtAsunto.getText();
+        String texto=txaTexto.getText();
+        Correo correo;
+        int opcion=0;
+        //controlar errores con showMessageDialog
+        if(asunto.equals("")){
+            JOptionPane.showMessageDialog(this, "El Asunto no puede estar vacio");
+            //recuperar foco en txt asunto
+            txtAsunto.requestFocus();
+        } 
+        //controlar errores con showConfirmDialog
+        if (texto.equals("")){
+           opcion= JOptionPane.showConfirmDialog(this, "El texto esta vacio ¿Enviar?", 
+                   "Error", JOptionPane.YES_NO_OPTION);
+           
+  
+        }
+        if (opcion==0) {
+        
+        //en varias lineas
+        //int posicion=cmbDestinatario.getSelectedIndex();
+        //empleado e=(Empleado)modelo.getElementAt(posicion);
+        Empleado e=(Empleado)modelo.getElementAt(cmbDestinatario.getSelectedIndex());
+        //Se crea el correo (FIJARSE EN EL CONSTRUCTOR DE CORREO PARAMETROS Y ORDEN)
+        correo=new Correo(asunto, texto, usuarioValidado,f);
+        //correo=new Correo(asunto, texto, USUARIOVALIDADO,f);
+        // se manda correo (METODO CREADO EN CLASE CORREO)
+        // no hay que actualizar email
+        e.recibirCorreo(correo);
+        } else {
+             txaTexto.requestFocus();
+        }
+        
+    }//GEN-LAST:event_bntEnviarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

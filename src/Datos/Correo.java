@@ -29,6 +29,10 @@ public class Correo {
         this.asunto = asunto;
     }
 
+    public String visualizar() {
+        return fecha.visualizar();
+    }
+
     public String getTexto() {
         return texto;
     }
@@ -43,6 +47,10 @@ public class Correo {
 
     public void setCodigoEmisor(int codigoEmisor) {
         this.codigoEmisor = codigoEmisor;
+    }
+    
+    public String getFecha(){
+        return fecha.visualizar();
     }
     
    

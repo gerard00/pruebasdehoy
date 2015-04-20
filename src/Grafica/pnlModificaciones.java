@@ -17,14 +17,20 @@ import javax.swing.JOptionPane;
  */
 public class pnlModificaciones extends javax.swing.JPanel {
     Empresa email;
-    
+    //para volver a administrador al cancelar
+    VentanaAdministrador ventana;
     private DefaultListModel modelo;
     
-    public pnlModificaciones(Empresa email) {
+    public pnlModificaciones(Empresa email, VentanaAdministrador administrador) {
        //INSTANCIAR MODELOS SIIEMMPRREEE
         modelo= new DefaultListModel();
         this.email = email;
+        //para volver a administrador al cancelar
+        this.ventana = administrador;
+        
         initComponents();
+        
+        
         // SE RELLENA DEBAJO DE INICIAR SINO NO HABRIA COMPONENTE PARA MOSTRARLOS
         cargaEmpleados();
     }
@@ -96,6 +102,11 @@ public class pnlModificaciones extends javax.swing.JPanel {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         cmbTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Administrador", "Usuario" }));
 
@@ -217,6 +228,13 @@ public class pnlModificaciones extends javax.swing.JPanel {
        cmbTipoUsuario.setSelectedIndex(email.getMisEmpleados().get(lstEmpleados.getSelectedIndex()).getTipoUsuario()-1);
        
     }//GEN-LAST:event_lstEmpleadosValueChanged
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        //qutar el panel y volver a ventanaAdministrador
+        ventana.remove(this);
+        ventana.pack();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

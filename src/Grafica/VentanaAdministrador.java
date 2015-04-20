@@ -6,6 +6,7 @@
 package Grafica;
 
 import Datos.Empresa;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -16,11 +17,15 @@ public class VentanaAdministrador extends javax.swing.JFrame {
   private Empresa email;
   pnAlta palta;
   pnlModificaciones pnlModifi;
+  PanelEnviar pEnviar;
+  int usuarioValidado;
     //public VentanaAdministrador( Empresa email,)
-    public VentanaAdministrador( Empresa email) {
+    public VentanaAdministrador( Empresa email,int usuarioValidado) {
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Administrador.png")).getImage());
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.email=email;
+        this.usuarioValidado=usuarioValidado;
              
     }
 
@@ -78,6 +83,11 @@ public class VentanaAdministrador extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem6.setText("Enviar correo");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem5.setText("Bandeja de entrada");
@@ -105,7 +115,7 @@ public class VentanaAdministrador extends javax.swing.JFrame {
     private void mnuModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuModificarUsuarioActionPerformed
         // Cambiar entre ventanas paneles
         quitarPaneles();
-        pnlModifi=new pnlModificaciones(email);
+        pnlModifi=new pnlModificaciones(email, this);
         this.add(pnlModifi);
         pack();
     }//GEN-LAST:event_mnuModificarUsuarioActionPerformed
@@ -124,6 +134,14 @@ public class VentanaAdministrador extends javax.swing.JFrame {
         this.add(palta);
         pack();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        quitarPaneles();
+        pEnviar=new PanelEnviar(email,usuarioValidado);
+        this.add(pEnviar);
+        pack();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 private void quitarPaneles(){
     try{
         // GUARDAR EMAIL ANTES DE BORRAR PANEL PARA GUARDAR CAMBIOS

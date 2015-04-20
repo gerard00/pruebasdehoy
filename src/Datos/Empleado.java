@@ -51,9 +51,22 @@ public class Empleado {
         return nombre;
     }
 
+    public ArrayList<Correo> getbEntrada() {
+        return bEntrada;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
+    public void setbEntrada(ArrayList<Correo> bEntrada) {
+        this.bEntrada = bEntrada;
+    }
+
     public int getIdentificador() {
         return identificador;
     }
+    //CUANDO SE USE TOSTRING DEVUELVE EL NOMBRE 
     
     @Override
     public String toString() {
@@ -81,7 +94,7 @@ public class Empleado {
     }
     // cada elemento del correro
     public void recibirCorreo(String asunto, String Texto, int codigoEmisor, Fecha fecha){
-        Correo c= new Correo(asunto,Texto, codigoEmisor,fecha);
+        Correo c= new Correo(asunto,Texto, codigoEmisor, fecha);
         bEntrada.add(c);
     }
 }
